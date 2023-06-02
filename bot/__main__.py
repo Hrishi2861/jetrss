@@ -46,8 +46,6 @@ async def stats(_, message):
 
     sysTime = get_readable_time(time() - boot_time())
     botTime = get_readable_time(time() - botStartTime)
-    remaining_time = 86400 - (time() - botStartTime)
-    res_time = '⚠️ Soon ⚠️' if remaining_time <= 0 else get_readable_time(remaining_time)
     total, used, free, disk= disk_usage('/')
     total = get_readable_file_size(total)
     used = get_readable_file_size(used)
@@ -77,8 +75,7 @@ async def stats(_, message):
             f'<b>Change Log:</b> <code>{change_log}</code>\n\n' \
             f'<b><i><u>Bot Info</u></i></b>\n' \
             f'<b>SYS UPTM:</b> <code>{sysTime}</code>\n' \
-            f'<b>BOT UPTM:</b> <code>{botTime}</code>\n' \
-            f'<b>BOT Restart:</b> <code>{res_time}</code>\n\n' \
+            f'<b>BOT UPTM:</b> <code>{botTime}</code>\n\n' \
             f'<b>CPU:</b> <code>{get_progress_bar_string(cpuUsage)} {cpuUsage}%</code>\n' \
             f'<b>CPU Total Core(s):</b> <code>{cpu_count(logical=True)}</code>\n' \
             f'<b>P-Core(s):</b> <code>{cpu_count(logical=False)}</code> | <b>V-Core(s):</b> <code>{v_core}</code>\n' \

@@ -222,10 +222,6 @@ def get_readable_message():
     msg += f" | <b>UPTM</b>: <code>{get_readable_time(time() - botStartTime)}</code>"
     msg += f"\n<b>DL</b>: <code>{get_readable_file_size(dl_speed)}/s</code>"
     msg += f" | <b>UL</b>: <code>{get_readable_file_size(up_speed)}/s</code>"
-    remaining_time = 86400 - (time() - botStartTime)
-    res_time = '⚠️ ANYTIME ⚠️' if remaining_time <= 0 else get_readable_time(remaining_time)
-    if remaining_time <= 3600:
-        msg += f"\n<b>Bot Restarts In:</b> <code>{res_time}</code>"
     return msg, button
 
 
