@@ -31,6 +31,13 @@ except:
 
 load_dotenv('config.env', override=True)
 
+try:
+    if bool(environ.get('_____REMOVE_THIS_LINE_____')):
+        log_error('The README.md file there to read! Exiting now!')
+        exit()
+except:
+    pass
+
 BOT_TOKEN = environ.get('BOT_TOKEN', '')
 if len(BOT_TOKEN) == 0:
     log_error("BOT_TOKEN variable is missing! Exiting now")
@@ -72,7 +79,11 @@ update = srun([f"git init -q \
                  && git reset --hard origin/{UPSTREAM_BRANCH} -q"], shell=True)
 
 if update.returncode == 0:
-    log_info('Successfully updated with latest commit from UPSTREAM_REPO')
+    log_info('Successfully updated with latest commit.')
+    log_info(f'Repo in use: {UPSTREAM_REPO}')
+    log_info(f'Branch in use: {UPSTREAM_BRANCH}')
+    log_info('Thanks For Using Z_Mirror')
 else:
-    log_error('Something went wrong while updating, check UPSTREAM_REPO if valid or not!')
-
+    log_error('Something went wrong while updating.')
+    log_info('Check if entered UPSTREAM_REPO is valid or not!')
+    log_info(f'Entered upstream repo: {UPSTREAM_REPO}')
