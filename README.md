@@ -1,4 +1,4 @@
-# Deploy
+# Deploy to HEROKU
 
 **Important Note**
 1. Upload all of your private files here: `config.env`, `token.pickle`, `rcl.conf`, `accounts.zip`, `shorteners.txt` etc...
@@ -19,6 +19,7 @@
 
 ------
 
-## Deploy With CLI
+## Deploy using CLI
 
 - Deployment instructions uploaded [HERE](https://gist.github.com/Dawn-India/9be1ca66b392dee82bcbc8d7f7ebefe8)
+- Carefully copy-paste every CMD one by one. If you miss maybe your BOT will not run.
