@@ -16,10 +16,10 @@ data*
 downloads
 drive_folder
 list_drives.txt
-rclone/*
-rclone.conf
+rcl.conf
 shorteners.txt
 Thumbnails/*
 terabox.txt
 user.session
+zcl/*
 Z_Logs.txt
