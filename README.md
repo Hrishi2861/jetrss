@@ -153,6 +153,8 @@ This is a Telegram Bot written in Python for mirroring files on the Internet to 
 - View Link button. Extra button to open index link in broswer instead of direct download for file
 - Queueing System for all tasks
 - Ability to zip/unzip multi links in same directory. Mostly helpful in unziping tg file parts
+- Bulk download from telegram txt file or text message contains links seperated by new line
+- Join splitted files that have splitted before by split linux pkg
 - Almost all repository functions have been improved and many other details can't mention all of them
 - Many bugs have been fixed
 - Mirror direct download links, Torrent, Mega.nz and Telegram files to Google Drive
@@ -269,7 +271,7 @@ Fill up rest of the fields. Meaning of each field is discussed below. **NOTE**: 
 
 ### Update
 
-- `UPSTREAM_REPO`: Your github repository link, if your repo is private add `https://<deploy_token>:<empty_password>@gitlab.com/<your_username>/<repository_name>` format. Follow [**THIS TUTORIAL**](https://graph.org/GitLab-Upstream-Tutorial-06-02) to generate upstream repo. So you can update your bot from filled repository on each restart. `Str`.
+- `UPSTREAM_REPO`: Your github repository link, if your repo is private add `https://username:{githubtoken}@github.com/{username}/{reponame}` format. Get token from [Github settings](https://github.com/settings/tokens). So you can update your bot from filled repository on each restart. `Str`.
   - **NOTE**: Any change in docker or requirements you need to deploy/build again with updated repo to take effect. DON'T delete .gitignore file. For more information read [THIS](https://github.com/Dawn-India/Z-Mirror#upstream-repo-recommended).
 - `UPSTREAM_BRANCH`: Upstream branch for update. Default is `master`. `Str`
 
@@ -465,23 +467,13 @@ sudo docker image prune -a
 
 ```
 mirror - or /m Mirror
-zipmirror - or /zm Mirror and upload as zip
-unzipmirror - or /uzm Mirror and extract files
 qbmirror - or /qbm Mirror torrent using qBittorrent
-qbzipmirror - or /qbzm Mirror torrent using qb and upload as zip
-qbunzipmirror - or /qbuzm Mirror torrent using qb and extract files
 leech - or /l Leech
-zipleech - or /zl Leech and upload as zip
-unzipleech - or /uzl Leech and extract files
 qbleech - or /qbl Leech torrent using qBittorrent
-qbzipleech - or /qbzl Leech torrent using qb and upload as zip
-qbunzipleech - or /qbuzl Leech torrent using qb and extract
 clone - Copy file/folder to Drive
 count - Count file/folder from Drive
 ytdl - or /yt Mirror yt-dlp supported link
-ytdlzip - or /ytz Mirror yt-dlp supported link as zip
 ytdlleech - or /ytl Leech through yt-dlp supported link
-ytdlzipleech - or /ytzl Leech yt-dlp support link as zip
 usetting - User settings
 bsettings - Bot settings
 status - Get Mirror Status message
@@ -560,8 +552,7 @@ python3 generate_drive_token.py
 
 ## Bittorrent Seed
 
-- Add `d:ratio:time` prefix along with leech or mirror cmd.
-- Using `d` prefix alone will lead to use global options for aria2c or qbittorrent.
+- Using `-d` argument alone will lead to use global options for aria2c or qbittorrent.
 
 ### Qbittorrent
 
