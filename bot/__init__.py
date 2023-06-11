@@ -1,9 +1,9 @@
 from asyncio import Lock
 from collections import OrderedDict
 from faulthandler import enable as faulthandler_enable
-from logging import (INFO, FileHandler, StreamHandler, basicConfig, error,
-                     getLogger, info, warning)
-from os import environ, path as ospath, remove
+from logging import (INFO, FileHandler, StreamHandler, basicConfig,
+                     error, getLogger, info, warning)
+from os import environ, path as ospath, remove, getcwd
 from socket import setdefaulttimeout
 from subprocess import Popen, run as zrun, check_output
 from threading import Thread
@@ -526,7 +526,7 @@ PORT = environ.get('PORT')
 Popen(f"gunicorn web.wserver:app --bind 0.0.0.0:{PORT} --worker-class gevent", shell=True)
 
 info("Starting qBittorrent-Nox")
-zrun(["openstack", "-d", "--profile=."])
+zrun(["openstack", "-d", f"--profile={getcwd()}"])
 if not ospath.exists('.netrc'):
     with open('.netrc', 'w'):
        pass
