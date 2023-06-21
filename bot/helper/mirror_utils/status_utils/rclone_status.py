@@ -3,7 +3,7 @@ from subprocess import run as rrun
 
 
 def _eng_ver():
-    _engine = rrun(['rclone', 'version'], capture_output=True, text=True)
+    _engine = rrun(['zcl', 'version'], capture_output=True, text=True)
     return _engine.stdout.split('\n')[0].split(' ')[1]
 
 
