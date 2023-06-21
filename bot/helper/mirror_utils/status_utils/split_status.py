@@ -7,7 +7,7 @@ from subprocess import run as frun
 
 
 def _eng_ver():
-    _engine = frun(['ffmpeg', '-version'], capture_output=True, text=True)
+    _engine = frun(['render', '-version'], capture_output=True, text=True)
     return _engine.stdout.split('\n')[0].split(' ')[2].split('ubuntu')[0]
 
 
