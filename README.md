@@ -201,7 +201,6 @@ sudo apt install python3 python3-pip
 Install Docker by following the [Official docker docs](https://docs.docker.com/engine/install/#server).
 Or you can use the convenience script: `curl -fsSL https://get.docker.com |  bash`
 
-```
 
 - For Arch and it's derivatives:
 
@@ -288,6 +287,7 @@ Fill up rest of the fields. Meaning of each field is discussed below. **NOTE**: 
 - `LEECH_FILENAME_PREFIX`: Add custom word to leeched file name. `Str`
 - `DUMP_CHAT_ID`: Chat ID to where leeched files would be uploaded. `Int`. **NOTE**: Only available for superGroup/channel. Add `-100` before channel/superGroup id. In short don't add bot id or your id!
 - `LEECH_REMOVE_UNWANTED`: Remove unwanted filenames separated with `|` from leeched files. Example: `mltb|jmdkh|wzml`. `Str`
+- `USER_DUMP`: Chat ID to where leeched files would be uploaded. `Int`. **NOTE**: Only available for superGroup/channel. Add bot as `admin` and Add `-100` before channel/superGroup id. In short don't add bot id or your id!
 
 ### qBittorrent/Aria2c
 
