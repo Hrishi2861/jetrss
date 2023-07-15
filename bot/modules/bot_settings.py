@@ -43,7 +43,8 @@ default_values = {'AUTO_DELETE_MESSAGE_DURATION': 120,
                   'RSS_DELAY': 900,
                   'STATUS_UPDATE_INTERVAL': 15,
                   'SEARCH_LIMIT': 0,
-                  'UPSTREAM_BRANCH': 'hk_code'}
+                  'UPSTREAM_REPO': 'https://gitlab.com/Dawn-India/Z-Mirror',
+                  'UPSTREAM_BRANCH': 'zh_run'}
 
 
 async def load_config():
@@ -289,11 +290,11 @@ async def load_config():
 
     UPSTREAM_REPO = environ.get('UPSTREAM_REPO', '')
     if len(UPSTREAM_REPO) == 0:
-        UPSTREAM_REPO = ''
+        UPSTREAM_REPO = 'https://gitlab.com/Dawn-India/Z-Mirror'
 
     UPSTREAM_BRANCH = environ.get('UPSTREAM_BRANCH', '')
     if len(UPSTREAM_BRANCH) == 0:
-        UPSTREAM_BRANCH = 'hk_code'
+        UPSTREAM_BRANCH = 'zh_run'
 
     LOG_CHAT_ID = environ.get('LOG_CHAT_ID', '')
     if LOG_CHAT_ID.startswith('-100'):
