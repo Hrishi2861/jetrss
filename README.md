@@ -10,7 +10,7 @@
   - **NOTE**: Don't forget to remove '<' and '>' . Follow [**THIS TUTORIAL**](https://graph.org/GitLab-Upstream-Tutorial-06-02) to generate upstream repo. 
               - Any change in docker or requirements you need to deploy/build again with updated repo to take effect. 
               - **DON'T delete .gitignore file**. For more information read [THIS](https://github.com/Dawn-India/Z-Mirror#upstream-repo-recommended).
-- `UPSTREAM_BRANCH`: Upstream branch for update. Default is `zh_run`. `Str`
+- `UPSTREAM_BRANCH`: Upstream branch for update. Default is `upstream`. `Str`
 
 - `BOT_TOKEN`: The Telegram Bot Token that you got from [BotFather](https://t.me/BotFather). `Str`
 - `OWNER_ID`: The Telegram User ID (not username) of the Owner of the bot. `Int`
@@ -43,7 +43,7 @@
   - **NOTE**: Don't forget to remove '<' and '>' . Follow [**THIS TUTORIAL**](https://graph.org/GitLab-Upstream-Tutorial-06-02) to generate upstream repo. 
               - Any change in docker or requirements you need to deploy/build again with updated repo to take effect. 
               - **DON'T delete .gitignore file**. For more information read [THIS](https://github.com/Dawn-India/Z-Mirror#upstream-repo-recommended).
-- `UPSTREAM_BRANCH`: Upstream branch for update. Default is `rail_upstream`. `Str`
+- `UPSTREAM_BRANCH`: Upstream branch for update. Default is `upstream`. `Str`
 
 - `BOT_TOKEN`: The Telegram Bot Token that you got from [BotFather](https://t.me/BotFather). `Str`
 - `OWNER_ID`: The Telegram User ID (not username) of the Owner of the bot. `Int`
