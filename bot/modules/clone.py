@@ -38,7 +38,7 @@ from bot.helper.telegram_helper.message_utils import (anno_checker,
                                                       sendStatusMessage)
 
 
-async def rcloneNode(client, message, link, dst_path, rcf, listener):
+async def rcloneNode(client, message, link, dst_path, listener):
     if link == 'rcl':
         link = await RcloneList(client, message).get_rclone_path('rcd')
         if not is_rclone_path(link):
@@ -110,7 +110,7 @@ async def rcloneNode(client, message, link, dst_path, rcf, listener):
         download_dict[message.id] = RcloneStatus(
             RCTransfer, message, gid, 'cl', listener.extra_details)
     await sendStatusMessage(message)
-    link, destination = await RCTransfer.clone(config_path, remote, src_path, dst_path, rcf, mime_type)
+    link, destination = await RCTransfer.clone(config_path, remote, src_path, dst_path, mime_type)
     if not link:
         await delete_links(message)
         return
@@ -305,7 +305,8 @@ async def clone(client, message):
             return
         listener = MirrorLeechListener(message, tag=tag, select=select, isClone=True,
                                        dmMessage=dmMessage, logMessage=logMessage, raw_url=raw_url)
-        await rcloneNode(client, message, link, dst_path, rcf, listener)
+        listener.rcFlags = rcf
+        await rcloneNode(client, link, dst_path, listener)
     else:
         if not drive_id and len(categories_dict) > 1:
             drive_id, index_link = await open_category_btns(message)
