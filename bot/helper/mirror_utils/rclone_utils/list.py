@@ -110,7 +110,7 @@ class RcloneList:
         self.query_proc = False
         self.item_type = '--dirs-only'
         self.event = Event()
-        self.user_rcc_path = f'zcl/{self.__user_id}.conf'
+        self.user_rcc_path = f'rcl/{self.__user_id}.conf'
         self.config_path = ''
         self.path = ''
         self.list_status = ''

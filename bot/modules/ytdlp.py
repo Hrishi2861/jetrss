@@ -433,7 +433,7 @@ async def _ytdl(client, message, isLeech=False, sameDir=None, bulk=[]):
             return
         elif up not in ['rcl', 'gd']:
             if up.startswith('mrcc:'):
-                config_path = f'zcl/{message.from_user.id}.conf'
+                config_path = f'rcl/{message.from_user.id}.conf'
             else:
                 config_path = 'rcl.conf'
             if not await aiopath.exists(config_path):
