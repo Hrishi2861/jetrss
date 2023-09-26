@@ -125,29 +125,31 @@ async def send_repo_stats(_, query):
     version     = 'N/A'
     change_log  = 'N/A'
     update_info = ''
+    s_id        = ''
     async with xclient() as client:
-        c_url = 'https://api.github.com/repos/Dawn-India/Z-Mirror/commits'
-        v_url = 'https://api.github.com/repos/Dawn-India/Z-Mirror/tags'
+        c_url = 'https://gitlab.com/api/v4/projects/Dawn-India%2fZ-Mirror/repository/branches'
+        v_url = 'https://gitlab.com/api/v4/projects/Dawn-India%2FZ-Mirror/repository/tags'
         res = await client.get(c_url)
         pns = await client.get(v_url)
         if res.status_code == 200 and pns.status_code == 200:
             commits = res.json()
             tags = pns.json()
             if commits:
-                latest_commit = commits[0]
-                commit_date   = latest_commit["commit"]["committer"]["date"]
-                commit_date   = dt.strptime(commit_date, '%Y-%m-%dT%H:%M:%SZ')
+                commits = next((commit for commit in commits if commit["name"] == "main"), None)
+                commit_date   = commits["commit"]["committed_date"]
+                commit_date   = dt.strptime(commit_date, '%Y-%m-%dT%H:%M:%S.%f%z')
                 commit_date   = commit_date.strftime('%d/%m/%Y at %I:%M %p')
-                logs          = latest_commit["commit"]["message"].split('\n\n')
+                logs          = commits["commit"]["message"].split('\n\n')
                 c_log         = logs[0]
                 d_log         = logs[1]
+                s_id          = commits["commit"]["short_id"]
             if tags:
-                latest_tag = tags[0]
-                vtag = latest_tag["name"]
+                tags = next((tag for tag in tags if tag["commit"]["short_id"] == f"{s_id}"), None)
+                vtag = tags["name"]
         if await aiopath.exists('.git'):
-            last_commit = (await cmd_exec("git log -1 --date=short --pretty=format:'%cr'", True))[0]
-            version     = (await cmd_exec("git describe --abbrev=0 --tags", True))[0]
-            change_log  = (await cmd_exec("git log -1 --pretty=format:'%s'", True))[0]
+            last_commit = (await cmd_exec("git log -1   --date=short --pretty=format:'%cr'", True))[0]
+            version     = (await cmd_exec("git describe --abbrev=0   --tags",                True))[0]
+            change_log  = (await cmd_exec("git log -1   --pretty=format:'%s'",               True))[0]
             if version == '':
                 version = 'N/A'
         if version != 'N/A':
@@ -160,7 +162,7 @@ async def send_repo_stats(_, query):
                  f'<code>- Updated   : </code> {commit_date}\n'   \
                  f'<code>- Version   : </code> {vtag}       \n'   \
                  f'<code>- Changelog : </code> {c_log}      \n'   \
-                 f'<code>- Desc      : </code> {d_log}      \n\n' \
+                 f'<code>- Desc      : </code> {d_log}      \n'   \
                  f'<b><i>Bot Repository</i></b>             \n'   \
                  f'<code>- Updated   : </code> {last_commit}\n'   \
                  f'<code>- Version   : </code> {version}    \n'   \
