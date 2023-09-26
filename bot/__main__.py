@@ -1,10 +1,12 @@
 #!/usr/bin/env python3
+from datetime import datetime as dt
 from asyncio import create_subprocess_exec, gather
 from os import execl as osexecl
 from signal import SIGINT, signal
 from sys import executable
 from time import time, monotonic
 from uuid import uuid4
+from httpx import AsyncClient as xclient
 
 from aiofiles import open as aiopen
 from aiofiles.os import path as aiopath
@@ -118,19 +120,57 @@ async def send_sys_stats(_, query):
 
 async def send_repo_stats(_, query):
     buttons = ButtonMaker()
-    if await aiopath.exists('.git'):
-        last_commit = (await cmd_exec("git log -1 --date=short --pretty=format:'%cr'", True))[0]
-        version     = (await cmd_exec("git describe --abbrev=0 --tags", True))[0]
-        change_log  = (await cmd_exec("git log -1 --pretty=format:'%s'", True))[0]
-    else:
-        last_commit = 'No UPSTREAM_REPO'
-        version     = 'N/A'
-        change_log  = 'N/A'
-
-    repo_stats = f'<b><i><u>Repo Info</u></i></b>\n\n' \
-                  f'<code>Updated   : </code> {last_commit}\n' \
-                  f'<code>Version   : </code> {version}\n' \
-                  f'<code>Changelog : </code> {change_log}'
+    commit_date = 'Official Repo not available'
+    last_commit = 'No UPSTREAM_REPO'
+    c_log       = 'N/A'
+    d_log       = 'N/A'
+    vtag        = 'N/A'
+    version     = 'N/A'
+    change_log  = 'N/A'
+    update_info = ''
+    s_id        = ''
+    async with xclient() as client:
+        c_url = 'https://gitlab.com/api/v4/projects/Dawn-India%2fZ-Mirror/repository/branches'
+        v_url = 'https://gitlab.com/api/v4/projects/Dawn-India%2FZ-Mirror/repository/tags'
+        res = await client.get(c_url)
+        pns = await client.get(v_url)
+        if res.status_code == 200 and pns.status_code == 200:
+            commits = res.json()
+            tags = pns.json()
+            if commits:
+                commits = next((commit for commit in commits if commit["name"] == "upstream"), None)
+                commit_date   = commits["commit"]["committed_date"]
+                commit_date   = dt.strptime(commit_date, '%Y-%m-%dT%H:%M:%S.%f%z')
+                commit_date   = commit_date.strftime('%d/%m/%Y at %I:%M %p')
+                logs          = commits["commit"]["message"].split('\n\n')
+                c_log         = logs[0]
+                d_log         = logs[1]
+                s_id          = commits["commit"]["short_id"]
+            if tags:
+                tags = next((tag for tag in tags if tag["commit"]["short_id"] == f"{s_id}"), None)
+                vtag = tags["name"]
+        if await aiopath.exists('.git'):
+            last_commit = (await cmd_exec("git log -1   --date=short --pretty=format:'%cr'", True))[0]
+            version     = (await cmd_exec("git describe --abbrev=0   --tags",                True))[0]
+            change_log  = (await cmd_exec("git log -1   --pretty=format:'%s'",               True))[0]
+            if version == '':
+                version = 'N/A'
+        if version != 'N/A':
+            if version != vtag:
+                update_info =  f'⚠️ New Version Update Available ⚠️\n'
+                update_info += f'Update ASAP and experience new features and bug-fixes.'
+        
+    repo_stats = f'<b><i><u>Zee Repository Info</u></i></b> \n\n' \
+                 f'<b><i>Official Repository</i></b>        \n'   \
+                 f'<code>- Updated   : </code> {commit_date}\n'   \
+                 f'<code>- Version   : </code> {vtag}       \n'   \
+                 f'<code>- Changelog : </code> {c_log}      \n'   \
+                 f'<code>- Desc      : </code> {d_log}      \n'   \
+                 f'<b><i>Bot Repository</i></b>             \n'   \
+                 f'<code>- Updated   : </code> {last_commit}\n'   \
+                 f'<code>- Version   : </code> {version}    \n'   \
+                 f'<code>- Changelog : </code> {change_log} \n\n' \
+                 f'<b>{update_info}</b>'
 
     buttons.ibutton("Bot Stats",  "show_bot_stats")
     buttons.ibutton("Sys Stats",  "show_sys_stats")
