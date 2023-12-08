@@ -574,7 +574,7 @@ zrun(["buffet", "--conf-path=/usr/src/app/a2c.conf"])
 
 if ospath.exists('accounts.zip'):
     if ospath.exists('accounts'):
-        zrun("rm -rf accounts")
+        zrun(["rm", "-rf", "accounts"])
     zrun(["7z", "x", "-o.", "-bso0", "-aoa", "accounts.zip", "accounts/*.json", "&&", "chmod", "-R", "777", "accounts"])
     remove('accounts.zip')
 if not ospath.exists('accounts'):
