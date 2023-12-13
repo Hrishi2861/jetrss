@@ -18,11 +18,9 @@ async def add_rclone_download(rc_path, config_path, path, name, listener):
     remote, rc_path = rc_path.split(':', 1)
     rc_path = rc_path.strip('/')
 
-    cmd1 = ['zcl', 'lsjson', '--fast-list', '--stat', '--no-mimetype',
-            '--no-modtime', '--config', config_path, f'{remote}:{rc_path}']
-    cmd2 = ['zcl', 'size', '--fast-list', '--json',
-            '--config', config_path, f'{remote}:{rc_path}']
-    res1, res2 = await gather(cmd_exec(cmd1), cmd_exec(cmd2))
+    cmd1 = f'zcl lsjson --fast-list --stat --no-mimetype --no-modtime --config {config_path} "{remote}:{listener.link}"'
+    cmd2 = f'zcl size --fast-list --json --config {config_path} "{remote}:{listener.link}"'
+    res1, res2 = await gather(cmd_exec(cmd1, shell=True), cmd_exec(cmd2, shell=True))
     if res1[2] != res2[2] != 0:
         if res1[2] != -9:
             err = res1[1] or res2[1]
