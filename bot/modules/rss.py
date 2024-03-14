@@ -731,7 +731,7 @@ async def rssMonitor():
                             item_info = item_info.replace(old, new)
                         feed_msg += f"\n\n<b>Info: </b>{item_info}"
                         feed_msg += f"\n\n<b>Download Link: </b>{url}"
-                        feed_msg += "\n\n<b>Powered By: </b>@Z_Mirror"
+                        feed_msg += "\n\n<b>Powered By: </b>@JetMirror ❤️🚀"
                     await sendRss(feed_msg)
                     feed_count += 1
                 async with rss_dict_lock:
